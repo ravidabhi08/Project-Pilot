@@ -22,16 +22,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuthState() async {
-    await Future.delayed(const Duration(seconds: 2)); // Minimum splash time
+    await Future.delayed(const Duration(seconds: 2));
 
-    if (_authController.isAuthenticated) {
-      if (mounted) {
-        context.go(AppRoutes.dashboard);
-      }
+    if (!mounted) return;
+
+    // Wait until controller loads user
+    final user = _authController.currentUser;
+
+    if (user != null) {
+      context.go(AppRoutes.dashboard);
     } else {
-      if (mounted) {
-        context.go(AppRoutes.onboarding);
-      }
+      context.go(AppRoutes.onboarding);
     }
   }
 

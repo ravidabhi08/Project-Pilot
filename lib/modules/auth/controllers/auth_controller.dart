@@ -22,7 +22,14 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    _setInitialUser(); // ✅ ADD THIS
     _initializeAuthState();
+  }
+
+  void _setInitialUser() async {
+    final user = _authRepository.getCurrentUser(); // 👈 you need this
+    _currentUser.value = await user;
   }
 
   void _initializeAuthState() {
